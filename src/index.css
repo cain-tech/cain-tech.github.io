@@ -48,7 +48,14 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  /* clip the sideways travel of the scroll-reveal animations (fadeLeft/
+     fadeRight start ±64px off-axis) so the page never overflows the
+     viewport width — was causing a zoomed-in look on mobile until scroll */
+  overflow-x: hidden;
+  overflow-x: clip;
+}
 
 body {
   background: var(--bg);
@@ -56,6 +63,7 @@ body {
   font-family: "Inter", system-ui, sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   transition: background 0.4s ease, color 0.4s ease;
 }
