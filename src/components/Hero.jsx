@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
-import { Magnetic, ScrambleText, EASE } from "./ui.jsx";
+import { Magnetic, EASE } from "./ui.jsx";
 
 const TERMINAL_LINES = [
   "$ cain-tech init --remote",
@@ -98,16 +98,7 @@ export default function Hero() {
         my.set(e.clientY / innerHeight - 0.5);
       }}
     >
-      <motion.div className="hero-inner" style={{ opacity: fade, y: drift, scale }}>
-        <motion.p
-          className="hero-eyebrow"
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0, transition: { delay: 1.45, duration: 0.7, ease: EASE } }}
-        >
-          <span className="pulse-dot" />
-          <ScrambleText text="A FOUNDER-LED SOFTWARE STUDIO · REMOTE-FIRST" />
-        </motion.p>
-
+      <motion.div className="hero-inner pt-12" style={{ opacity: fade, y: drift, scale }}>
         <motion.h1
           className="hero-title"
           variants={wordsVariants}

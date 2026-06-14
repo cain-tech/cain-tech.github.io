@@ -1114,17 +1114,26 @@ export default function MorphField() {
 
     addEventListener("mousemove", onMouse, { passive: true });
     addEventListener("resize", onResize);
+    // mobile browsers change the visual viewport (and innerHeight) when the
+    // address bar shows/hides — listen for that so the canvas never renders
+    // stretched/"zoomed" until the first scroll
+    visualViewport?.addEventListener("resize", onResize);
     onResize();
 
     let raf;
     const pos = geo.attributes.position.array;
     let lastT = performance.now();
+    let lastW = innerWidth, lastH = innerHeight;
     let yBase = null; // fixed rotation base while inside the sport zone
 
     const frame = () => {
       const now = performance.now();
       const dt = Math.min((now - lastT) / 1000, 0.05);
       lastT = now;
+      // self-heal any viewport change the resize events missed (mobile)
+      if (innerWidth !== lastW || innerHeight !== lastH) {
+        lastW = innerWidth; lastH = innerHeight; onResize();
+      }
       // scroll progress drives which shape the cloud is morphing toward
       const max = document.documentElement.scrollHeight - innerHeight;
       const progress = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
@@ -1189,6 +1198,7 @@ export default function MorphField() {
       cancelAnimationFrame(raf);
       removeEventListener("mousemove", onMouse);
       removeEventListener("resize", onResize);
+      visualViewport?.removeEventListener("resize", onResize);
       removeEventListener("themechange", onThemeChange);
       geo.dispose();
       mat.dispose();
