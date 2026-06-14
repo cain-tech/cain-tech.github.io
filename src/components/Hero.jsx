@@ -98,7 +98,7 @@ export default function Hero() {
         my.set(e.clientY / innerHeight - 0.5);
       }}
     >
-      <motion.div className="hero-inner pt-12" style={{ opacity: fade, y: drift, scale }}>
+      <motion.div className="hero-inner" style={{ opacity: fade, y: drift, scale }}>
         <motion.h1
           className="hero-title"
           variants={wordsVariants}
